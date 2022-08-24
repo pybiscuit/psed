@@ -20,7 +20,14 @@ split = split_script(args.script)
 
 
 if args.r:
-    print('primed for regex')
+    if not args.files:
+        reg_in = get_input()
+        print(re.sub(split[1], split[2], reg_in))
+    else:
+        with open(args.files, 'r') as f:
+            for line in f:
+                if len(re.findall(split[1], line)) > 0:
+                    print(re.sub(split[1], split[2], line))
 
 if not args.files:
     std_in = get_input()
@@ -31,6 +38,4 @@ else:
         for line in f:
             if split[1] in line:
                 print(line.replace(split[1], split[2]))
-
-        
 
